@@ -4,14 +4,21 @@
 <head>
     <title>My Day Activities</title>
 
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
     <h1>My Day Activities</h1>
-    <p>Write what I do each hour.</p>
+
+    <p>Select a date and record your activities.</p>
+
+    <label for="activityDate">Date:</label>
+    <input type="date" id="activityDate">
+
+    <button onclick="loadActivities()">Load Day</button>
+
+    <br><br>
 
     <table border="1">
 
@@ -22,101 +29,261 @@
 
         <tr>
             <td>5:00 AM - 6:00 AM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="5:00 AM - 6:00 AM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>6:00 AM - 7:00 AM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="6:00 AM - 7:00 AM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>7:00 AM - 8:00 AM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="7:00 AM - 8:00 AM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>8:00 AM - 9:00 AM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="8:00 AM - 9:00 AM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>9:00 AM - 10:00 AM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="9:00 AM - 10:00 AM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>10:00 AM - 11:00 AM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="10:00 AM - 11:00 AM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>11:00 AM - 12:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="11:00 AM - 12:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>12:00 PM - 1:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="12:00 PM - 1:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>1:00 PM - 2:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="1:00 PM - 2:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>2:00 PM - 3:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="2:00 PM - 3:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>3:00 PM - 4:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="3:00 PM - 4:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>4:00 PM - 5:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="4:00 PM - 5:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>5:00 PM - 6:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="5:00 PM - 6:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>6:00 PM - 7:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="6:00 PM - 7:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>7:00 PM - 8:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="7:00 PM - 8:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>8:00 PM - 9:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="8:00 PM - 9:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>9:00 PM - 10:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="9:00 PM - 10:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>10:00 PM - 11:00 PM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="10:00 PM - 11:00 PM" placeholder="Enter activity"></td>
         </tr>
 
         <tr>
             <td>11:00 PM - 12:00 AM</td>
-            <td><input type="text" placeholder="Enter activity"></td>
+            <td><input type="text" class="activity" data-time="11:00 PM - 12:00 AM" placeholder="Enter activity"></td>
         </tr>
 
     </table>
 
+    <br>
+
+    <button onclick="saveActivities()">💾 Save Day</button>
+
+    <p id="message"></p>
+
+
+    <script>
+
+        const SUPABASE_URL =
+            "https://sstjtyldtasfbdtkrwfh.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable__rHk2niW9v1wUQAaGlW7oQ_EXUkDzyP";
+
+        const supabaseClient =
+            supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        // Set today's date automatically
+        document.getElementById("activityDate").value =
+            new Date().toISOString().split("T")[0];
+
+
+        // Save activities
+        async function saveActivities() {
+
+            const selectedDate =
+                document.getElementById("activityDate").value;
+
+            if (!selectedDate) {
+                alert("Please select a date.");
+                return;
+            }
+
+            const inputs =
+                document.querySelectorAll(".activity");
+
+            const activities = [];
+
+            inputs.forEach(function(input) {
+
+                if (input.value.trim() !== "") {
+
+                    activities.push({
+                        activity_date: selectedDate,
+                        time_slot: input.dataset.time,
+                        activity: input.value
+                    });
+
+                }
+
+            });
+
+
+            // Remove old records for this date
+            const { error: deleteError } =
+                await supabaseClient
+                .from("daily_activities")
+                .delete()
+                .eq("activity_date", selectedDate);
+
+
+            if (deleteError) {
+
+                document.getElementById("message").innerText =
+                    "Error: " + deleteError.message;
+
+                return;
+            }
+
+
+            // Insert new records
+            if (activities.length > 0) {
+
+                const { error: insertError } =
+                    await supabaseClient
+                    .from("daily_activities")
+                    .insert(activities);
+
+
+                if (insertError) {
+
+                    document.getElementById("message").innerText =
+                        "Error: " + insertError.message;
+
+                    return;
+                }
+
+            }
+
+
+            document.getElementById("message").innerText =
+                "✅ Activities saved successfully!";
+
+        }
+
+
+        // Load activities for selected date
+        async function loadActivities() {
+
+            const selectedDate =
+                document.getElementById("activityDate").value;
+
+            if (!selectedDate) {
+                alert("Please select a date.");
+                return;
+            }
+
+
+            const { data, error } =
+                await supabaseClient
+                .from("daily_activities")
+                .select("*")
+                .eq("activity_date", selectedDate);
+
+
+            if (error) {
+
+                document.getElementById("message").innerText =
+                    "Error: " + error.message;
+
+                return;
+            }
+
+
+            // Clear all boxes
+            document.querySelectorAll(".activity")
+                .forEach(function(input) {
+                    input.value = "";
+                });
+
+
+            // Put saved activities into boxes
+            data.forEach(function(row) {
+
+                const input =
+                    document.querySelector(
+                        '.activity[data-time="' +
+                        row.time_slot +
+                        '"]'
+                    );
+
+                if (input) {
+                    input.value = row.activity;
+                }
+
+            });
+
+
+            document.getElementById("message").innerText =
+                data.length + " activities loaded.";
+
+        }
+
+    </script>
+
 </body>
 
-</html>
+            </html>
